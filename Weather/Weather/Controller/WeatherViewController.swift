@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import SkeletonView
 
 class WeatherViewController: UIViewController {
     
@@ -43,6 +44,7 @@ class WeatherViewController: UIViewController {
     }
     
     private func fetchWeather(byCity city: String) {
+        showAnimation()
         weatherNetworkManager.fetchWeather(city: city) { [weak self] (result) in
             guard let this = self else { return }
             this.handleResult(result)
@@ -50,6 +52,7 @@ class WeatherViewController: UIViewController {
     }
     
     private func fetchWeather(byLocation location: CLLocation) {
+        showAnimation()
         let lat = location.coordinate.latitude
         let lon = location.coordinate.longitude
         weatherNetworkManager.fetchWeather(lat: lat, lon: lon) { [weak self] (result) in
@@ -58,11 +61,8 @@ class WeatherViewController: UIViewController {
         }
     }
     
-    private func fetchWeather() {
-        
-    }
-    
     private func updateView(with data: WeatherModel) {
+        self.hideAnimation()
         citylabel.text = data.cityName
         conditionImageView.image = UIImage(named: data.conditionImage)
         temperatureLabel.text = data.temp.toString().appending("ºC")
@@ -87,14 +87,28 @@ class WeatherViewController: UIViewController {
     
     private func promptForLocationPermission() {
         let alertController = UIAlertController(title: "Требуется разрешение на определение местоположения.", message: "Хотите ли вы включить разрешение на определение местоположения в настройках?", preferredStyle: .alert)
-        let enableAction = UIAlertAction(title: "Go to settings", style: .default) { _ in
+        let enableAction = UIAlertAction(title: "Перейти в настройки", style: .default) { _ in
             guard let settingURL = URL(string: UIApplication.openSettingsURLString) else { return }
             UIApplication.shared.open(settingURL, options: [:], completionHandler: nil)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
         alertController.addAction(enableAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
+    }
+    
+    private func showAnimation() {
+        citylabel.showAnimatedSkeleton()
+        conditionImageView.showAnimatedSkeleton()
+        temperatureLabel.showAnimatedSkeleton()
+        conditionLabel.showAnimatedSkeleton()
+    }
+    
+    private func hideAnimation() {
+        citylabel.hideSkeleton()
+        conditionImageView.hideSkeleton()
+        temperatureLabel.hideSkeleton()
+        conditionLabel.hideSkeleton()
     }
     
     @IBAction func locationButtonTapped(_ sender: Any) {
