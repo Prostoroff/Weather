@@ -21,19 +21,19 @@ enum WeatherError: Error, LocalizedError {
 }
 
 struct WeatherNetworkManager {
-    private let API_KEY = "7e0b8fbf49c9b58c407be3c71844d64d"
+    private let apiKey = "7e0b8fbf49c9b58c407be3c71844d64d"
     private let cacheManager = CacheManager()
     
     func fetchWeather(lat: Double, lon: Double, completion: @escaping (Result<WeatherModel, Error>) -> Void) {
         let path = "https://api.openweathermap.org/data/2.5/weather?appid=%@&units=metric&lang=ru&lat=%f&lon=%f"
-        let urlString = String(format: path, API_KEY, lat, lon)
+        let urlString = String(format: path, apiKey, lat, lon)
         handleRequest(urlString: urlString, completion: completion)
     }
     
     func fetchWeather(city: String, completion: @escaping (Result<WeatherModel, Error>) -> Void) {
         let query = city.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? city
         let path = "https://api.openweathermap.org/data/2.5/weather?q=%@&appid=%@&units=metric&lang=ru"
-        let urlString = String(format: path, query, API_KEY)
+        let urlString = String(format: path, query, apiKey)
         handleRequest(urlString: urlString, completion: completion)
     }
     

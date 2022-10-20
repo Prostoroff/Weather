@@ -9,14 +9,20 @@ import UIKit
 
 class AddCityViewController: UIViewController {
     
+    // MARK: - IBOutlet
+    
     @IBOutlet weak var cityTextField: UITextField!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
     
-    private var weatherNetworkManager = WeatherNetworkManager()
+    // MARK: - Public Properties
     
     weak var delegate: WeatherViewControllerDelegate?
+    
+    // MARK: - Private Properties
+    
+    private var weatherNetworkManager = WeatherNetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +34,19 @@ class AddCityViewController: UIViewController {
         super.viewWillAppear(animated)
         cityTextField.becomeFirstResponder()
     }
+    
+    // MARK: - IBAction
+    
+    @IBAction func searchButtonTapped(_ sender: Any) {
+        activityIndicatorView.startAnimating()
+        guard let query = cityTextField.text, !query.isEmpty else {
+            showSearchError(text: "Поле не должно быть пустым. Попробуйте снова!")
+            return
+        }
+        handleSearch(query: query)
+    }
+    
+    // MARK: - Private Methods
     
     private func setupViews() {
         view.backgroundColor = UIColor(white: 0.3, alpha: 0.4)
@@ -44,14 +63,6 @@ class AddCityViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    @IBAction func searchButtonTapped(_ sender: Any) {
-        activityIndicatorView.startAnimating()
-        guard let query = cityTextField.text, !query.isEmpty else {
-            showSearchError(text: "Поле не должно быть пустым. Попробуйте снова!")
-            return
-        }
-        handleSearch(query: query)
-    }
     
     private func handleSearch(query: String) {
         activityIndicatorView.startAnimating()
@@ -83,6 +94,8 @@ class AddCityViewController: UIViewController {
     }
     
 }
+
+// MARK: - UIGestureRecognizerDelegate
 
 extension AddCityViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {

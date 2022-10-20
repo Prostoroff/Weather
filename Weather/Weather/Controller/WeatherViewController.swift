@@ -15,10 +15,14 @@ protocol WeatherViewControllerDelegate: AnyObject {
 
 class WeatherViewController: UIViewController {
     
+    // MARK: - IBOutlet
+    
     @IBOutlet weak var citylabel: UILabel!
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var conditionLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
+    
+    // MARK: - Private Properties
     
     private let defaultCity = "Moscow"
     private let cacheManager = CacheManager()
@@ -35,8 +39,28 @@ class WeatherViewController: UIViewController {
         let city = cacheManager.getCacheCity() ?? defaultCity
         fetchWeather(byCity: city)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showAddCity" {
+            if let destination = segue.destination as? AddCityViewController {
+                destination.delegate = self
+            }
+        }
+    }
 
-    func startLocationManager() {
+    // MARK: - IBAction
+    
+    @IBAction func locationButtonTapped(_ sender: Any) {
+        locationManagerDidChangeAuthorization(locationManager)
+    }
+    
+    @IBAction func addCityButtonTapped(_ sender: Any) {
+        performSegue(withIdentifier: "showAddCity", sender: nil)
+    }
+    
+    // MARK: - Private Methods
+    
+    private func startLocationManager() {
         locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {
@@ -114,23 +138,9 @@ class WeatherViewController: UIViewController {
         conditionLabel.hideSkeleton()
     }
     
-    @IBAction func locationButtonTapped(_ sender: Any) {
-        locationManagerDidChangeAuthorization(locationManager)
-    }
-    
-    @IBAction func addCityButtonTapped(_ sender: Any) {
-        performSegue(withIdentifier: "showAddCity", sender: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showAddCity" {
-            if let destination = segue.destination as? AddCityViewController {
-                destination.delegate = self
-            }
-        }
-    }
-    
 }
+
+// MARK: - CLLocationManagerDelegate
 
 extension WeatherViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -158,6 +168,8 @@ extension WeatherViewController: CLLocationManagerDelegate {
         
     }
 }
+
+// MARK: - WeatherViewControllerDelegate
 
 extension WeatherViewController: WeatherViewControllerDelegate {
     func didUpdateWeatherFromSearch(model: WeatherModel) {
