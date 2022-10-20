@@ -9,8 +9,11 @@ import UIKit
 import CoreLocation
 import SkeletonView
 
+protocol WeatherViewControllerDelegate: AnyObject {
+    func didUpdateWeatherFromSearch(model: WeatherModel)
+}
+
 class WeatherViewController: UIViewController {
-    
     
     @IBOutlet weak var citylabel: UILabel!
     @IBOutlet weak var conditionImageView: UIImageView!
@@ -114,8 +117,19 @@ class WeatherViewController: UIViewController {
     @IBAction func locationButtonTapped(_ sender: Any) {
         locationManagerDidChangeAuthorization(locationManager)
     }
+    
     @IBAction func addCityButtonTapped(_ sender: Any) {
+        performSegue(withIdentifier: "showAddCity", sender: nil)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showAddCity" {
+            if let destination = segue.destination as? AddCityViewController {
+                destination.delegate = self
+            }
+        }
+    }
+    
 }
 
 extension WeatherViewController: CLLocationManagerDelegate {
@@ -145,4 +159,12 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
 }
 
+extension WeatherViewController: WeatherViewControllerDelegate {
+    func didUpdateWeatherFromSearch(model: WeatherModel) {
+        presentedViewController?.dismiss(animated: true, completion: { [weak self] in
+            guard let this = self else { return }
+            this.updateView(with: model)
+        })
+    }
+}
     
