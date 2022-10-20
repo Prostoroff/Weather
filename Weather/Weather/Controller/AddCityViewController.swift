@@ -51,6 +51,7 @@ class AddCityViewController: UIViewController {
     private func setupViews() {
         view.backgroundColor = UIColor(white: 0.3, alpha: 0.4)
         statusLabel.isHidden = true
+        self.cityTextField.delegate = self
     }
     
     private func setupGestures() {
@@ -100,5 +101,14 @@ class AddCityViewController: UIViewController {
 extension AddCityViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return touch.view == self.view
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension AddCityViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
     }
 }

@@ -34,11 +34,11 @@ class WeatherViewController: UIViewController {
         return manager
     }()
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         let city = cacheManager.getCacheCity() ?? defaultCity
         fetchWeather(byCity: city)
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -130,13 +130,13 @@ class WeatherViewController: UIViewController {
         temperatureLabel.hideSkeleton()
         conditionLabel.hideSkeleton()
     }
-    
 }
 
 // MARK: - CLLocationManagerDelegate
 
 extension WeatherViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        showAnimation()
         switch manager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager.requestLocation()
