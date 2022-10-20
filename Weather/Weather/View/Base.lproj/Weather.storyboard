@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Crw-1f-yk5">
-                                <rect key="frame" x="107" y="135.5" width="200" height="356"/>
+                                <rect key="frame" x="107" y="270" width="200" height="356"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxK-Ml-Tz6">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="29"/>
@@ -65,7 +65,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Crw-1f-yk5" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="0.7" id="SiV-VW-sjw"/>
+                            <constraint firstItem="Crw-1f-yk5" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="SiV-VW-sjw"/>
                             <constraint firstItem="Crw-1f-yk5" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vm9-d4-ErW"/>
                         </constraints>
                     </view>
@@ -119,7 +119,7 @@
                                                     <constraint firstAttribute="height" constant="40" id="ibN-hf-yDz"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                             </textField>
                                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ofw-cU-kPf">
                                                 <rect key="frame" x="0.0" y="104" width="232" height="20"/>

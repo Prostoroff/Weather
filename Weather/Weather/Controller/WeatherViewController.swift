@@ -8,6 +8,7 @@
 import UIKit
 import CoreLocation
 import SkeletonView
+import Loaf
 
 protocol WeatherViewControllerDelegate: AnyObject {
     func didUpdateWeatherFromSearch(model: WeatherModel)
@@ -60,16 +61,6 @@ class WeatherViewController: UIViewController {
     
     // MARK: - Private Methods
     
-    private func startLocationManager() {
-        locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-            locationManager.pausesLocationUpdatesAutomatically = false
-            locationManager.startUpdatingLocation()
-        }
-    }
-    
     private func fetchWeather(byCity city: String) {
         showAnimation()
         weatherNetworkManager.fetchWeather(city: city) { [weak self] (result) in
@@ -106,10 +97,12 @@ class WeatherViewController: UIViewController {
     }
     
     private func handleError(_ error: Error) {
+        hideAnimation()
         citylabel.text = ""
         conditionImageView.image = UIImage(named: "sad")
         temperatureLabel.text = "Упс!"
         conditionLabel.text = "Что-то пошло не так. Пожалуйста, попробуйте снова позже."
+        Loaf(error.localizedDescription, state: .warning, location: .bottom, sender: self).show()
     }
     
     private func promptForLocationPermission() {
