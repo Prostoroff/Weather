@@ -5,6 +5,17 @@ V1.0 - поддержка iOS 14+ с использованием CocoaPods, Ala
 ## Скриншоты
 <img src="screenshots/one.jpg" width="382.5" height="723"/> <img src="screenshots/two.jpg" width="382.5" height="723"/>
 <img src="screenshots/three.jpg" width="382.5" height="723"/> <img src="screenshots/four.jpg" width="382.5" height="723"/>
+## Стек 
+- Swift
+- UIKit
+- MVC
+- Storyboards
+- CocoaPods
+- Alamofire
+- SkeletonView
+- Loaf
+- UserDefaults
+- CoreLocation
 ## Как установить
 1. Клонировать репозиторий 
 
